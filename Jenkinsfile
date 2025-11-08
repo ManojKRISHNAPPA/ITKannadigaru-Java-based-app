@@ -43,8 +43,6 @@ pipeline{
         stage('Testing-Stage'){
             steps{
                 sh '''
-                    // docker kill itkannadigaru-chat-bot
-                    // docker rm itkannadigaru-chat-bot
                     docker run -it -d --name itkannadigaru-blog-post -p 9001:8501 ${IMAGE_NAME}
                 '''
             } 
