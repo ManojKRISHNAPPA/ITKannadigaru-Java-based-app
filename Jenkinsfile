@@ -7,7 +7,7 @@ pipeline{
     }
 
     environment {
-        IMAGE_NAME = "manojkrishnappa/itkannaDigaru-blogpost:${GIT_COMMIT}"
+        IMAGE_NAME = "manojkrishnappa/itkannadigaru-blogpost:${GIT_COMMIT}"
     }
 
     stages{
@@ -42,7 +42,7 @@ pipeline{
         stage('Docker-testing'){
             steps{
                 sh '''
-                    docker run -it -d --name itkannaDigaru-blogpost-test -p 9000:8080 ${IMAGE_NAME}
+                    docker run -it -d --name itkannadigaru-blogpost-test -p 9000:8080 ${IMAGE_NAME}
                 '''
             }
         }        
