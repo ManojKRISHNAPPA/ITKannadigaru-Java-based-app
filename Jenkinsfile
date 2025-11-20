@@ -8,6 +8,9 @@ pipeline{
 
     environment {
         IMAGE_NAME = "manojkrishnappa/itkannadigaru-blogpost:${GIT_COMMIT}"
+        AWS_REGION = "us-west-2"
+        CLUSTER_NAME = "itkannadigaru-cluster"
+        NAMESPACE = "microdegree"
     }
 
     stages{
@@ -40,15 +43,15 @@ pipeline{
                 '''
             }
         }
-        stage('Docker-testing'){
-            steps{
-                sh '''
-                    docker kill itkannadigaru-blogpost-test
-                    docker rm itkannadigaru-blogpost-test
-                    docker run -it -d --name itkannadigaru-blogpost-test -p 9000:8080 ${IMAGE_NAME}
-                '''
-            }
-        }   
+        // stage('Docker-testing'){
+        //     steps{
+        //         sh '''
+        //             docker kill itkannadigaru-blogpost-test
+        //             docker rm itkannadigaru-blogpost-test
+        //             docker run -it -d --name itkannadigaru-blogpost-test -p 9000:8080 ${IMAGE_NAME}
+        //         '''
+        //     }
+        // }   
 
         stage('Login to Docker Hub') {
             steps {
@@ -69,5 +72,29 @@ pipeline{
             }
         }
 
+        stage('update the k8 cluster'){
+            steps{
+                script{
+                   sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}"     
+                }
+            }
+        }
+
+        stage('Deploy to EKS cluster'){
+            steps{
+                withKubeConfig(caCertificate: '', clusterName: ' itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://420880259B390C766ED47F436190C1B6.gr7.us-west-2.eks.amazonaws.com'){
+                    sh " sed -i 's|replace|${IMAGE_NAME}|g' deployment.yml "
+                    sh " kubectl apply -f deployment.yml -n ${NAMESPACE}"
+                }
+            }
+        }
+        stage('verify'){
+            steps{
+                withKubeConfig(caCertificate: '', clusterName: ' itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://420880259B390C766ED47F436190C1B6.gr7.us-west-2.eks.amazonaws.com'){
+                    sh " kubectl get pods -n microdegree"
+                    sh " kubectl get svc -n ${NAMESPACE}"
+                }
+            }
+        }
     }
 }
