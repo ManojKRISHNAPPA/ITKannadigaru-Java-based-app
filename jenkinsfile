@@ -39,7 +39,7 @@ pipeline{
         stage ('docker-testing') {
             steps {
                 sh '''
-                docker run -t -d --name itkannadigaru-blogpost-test -p 9000:8080 ${IAMGE_NAME} 
+                docker run -t -d --name itkannadigaru-blogpost-test -p 9000:8080 ${IMAGE_NAME} 
                 '''
             }
         }
