@@ -1,4 +1,4 @@
-pipeline {
+pipeline{
     agent any 
     
     tools {
@@ -6,8 +6,9 @@ pipeline {
         maven 'maven'
     }
     environment {
-        IMAGE_NAME="afeef96867-hub/itkannadigaru.blogpost:${GIT_COMMIT}"
+        IMAGE_NAME = "afeef96867-hub/itkannadigaru-blogpost:${GIT_COMMIT}"
     }
+    
     stages {
         stage ('git-checkout') {
             steps {
