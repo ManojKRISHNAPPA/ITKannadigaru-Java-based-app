@@ -7,6 +7,9 @@ pipeline{
     }
     environment {
         IMAGE_NAME = "afeef96867/itkannadigaru-blogpost:${GIT_COMMIT}"
+        AWS_REGION = "us-west-2"
+        CLUSTER_NAME = "itkannadigaru-cluster"
+        NAME_SPACE = "Microdegree"
     }
     
     stages {
