@@ -72,15 +72,6 @@ pipeline{
                 }
             }
         }
-
-        stage('Deploy to EKS cluster'){
-            steps{
-                withKubeConfig(caCertificate: '', clusterName: ' itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://698A936E405D66950C9BB36F5A1DDC21.gr7.us-west-2.eks.amazonaws.com') {
-                    sh " sed -i 's|replace|${IMAGE_NAME}|g' deployment.yml "
-                    sh " kubectl apply -f deployment.yml -n ${NAMESPACE}"
-                }
-            }
-        }
         
         stage('Connect to EKS') {
             steps {
@@ -92,6 +83,15 @@ pipeline{
             }
         }
 
+        stage('Deploy to EKS cluster'){
+            steps{
+                withKubeConfig(caCertificate: '', clusterName: ' itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://698A936E405D66950C9BB36F5A1DDC21.gr7.us-west-2.eks.amazonaws.com') {
+                    sh " sed -i 's|replace|${IMAGE_NAME}|g' deployment.yml "
+                    sh " kubectl apply -f deployment.yml -n ${NAMESPACE}"
+                }
+            }
+        }
+        
         stage('verify'){
             steps{
                 withKubeConfig(caCertificate: '', clusterName: 'itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://5C8AAAF39774CCEADBBFDBA167D06AE3.sk1.us-west-2.eks.amazonaws.com'){
