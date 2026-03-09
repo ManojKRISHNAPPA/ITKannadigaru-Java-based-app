@@ -84,6 +84,7 @@ pipeline{
         stage('verify'){
             steps{
                 withKubeConfig(caCertificate: '', clusterName: 'itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://5C8AAAF39774CCEADBBFDBA167D06AE3.sk1.us-west-2.eks.amazonaws.com'){
+                    sh "kubectl get ns ${NAMESPACE} || kubectl create ns ${NAMESPACE}"
                     sh " kubectl get pods -n ${NAMESPACE}"
                     sh " kubectl get svc -n ${NAMESPACE}"
                 }
