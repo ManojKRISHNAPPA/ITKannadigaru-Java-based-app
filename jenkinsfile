@@ -9,7 +9,7 @@ pipeline{
         IMAGE_NAME = "afeef96867/itkannadigaru-blogpost:${GIT_COMMIT}"
         AWS_REGION = "us-west-2"
         CLUSTER_NAME = "itkannadigaru-cluster"
-        NAME_SPACE = "microdegree"
+        NAMESPACE = "microdegree"
     }
     
     stages {
@@ -77,15 +77,15 @@ pipeline{
             steps{
                 withKubeConfig(caCertificate: '', clusterName: ' itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://698A936E405D66950C9BB36F5A1DDC21.gr7.us-west-2.eks.amazonaws.com') {
                     sh " sed -i 's|replace|${IMAGE_NAME}|g' deployment.yml "
-                    sh " kubectl apply -f deployment.yml -n ${NAME_SPACE}"
+                    sh " kubectl apply -f deployment.yml -n ${NAMESPACE}"
                 }
             }
         }
         stage('verify'){
             steps{
-                withKubeConfig(caCertificate: '', clusterName: 'itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'Microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://5C8AAAF39774CCEADBBFDBA167D06AE3.sk1.us-west-2.eks.amazonaws.com'){
+                withKubeConfig(caCertificate: '', clusterName: 'itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'microdegree', restrictKubeConfigAccess: false, serverUrl: 'https://5C8AAAF39774CCEADBBFDBA167D06AE3.sk1.us-west-2.eks.amazonaws.com'){
                     sh " kubectl get pods -n Microdegree"
-                    sh " kubectl get svc -n ${NAME_SPACE}"
+                    sh " kubectl get svc -n ${NAMESPACE}"
                 }
             }
         }   
