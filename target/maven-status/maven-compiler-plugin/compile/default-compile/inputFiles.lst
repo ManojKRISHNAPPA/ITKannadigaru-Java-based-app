@@ -1,0 +1,13 @@
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/ItkannadigaruApplication.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/controller/AuthController.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/controller/DashboardController.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/controller/FactsController.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/controller/HomeController.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/database/DatabaseManager.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/model/Post.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/model/User.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/repository/PostRepository.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/repository/UserRepository.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/security/SecurityConfig.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/service/PostService.java
+/mnt/c/ITKannadigaru-Java-based-app/src/main/java/com/itkannadigaru/service/UserService.java
