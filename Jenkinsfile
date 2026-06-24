@@ -56,7 +56,7 @@ pipeline{
         stage('Login to Docker Hub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         // Login to Docker Hub
                         sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
                     }
@@ -72,30 +72,30 @@ pipeline{
             }
         }
 
-        stage('update the k8 cluster'){
-            steps{
-                script{
-                   sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}"     
-                }
-            }
-        }
+        // stage('update the k8 cluster'){
+        //     steps{
+        //         script{
+        //            sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}"     
+        //         }
+        //     }
+        // }
 
-        stage('Deploy to EKS cluster'){
-            steps{
-                withKubeConfig(caCertificate: '', clusterName: 'itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'itkannadigaru', restrictKubeConfigAccess: false, serverUrl: 'https://688F197BF70A6790C077E2E1C239DD27.gr7.us-west-2.eks.amazonaws.com'){
-                    sh " sed -i 's|replace|${IMAGE_NAME}|g' deployment.yml "
-                    sh " kubectl apply -f deployment.yml -n ${NAMESPACE}"
-                }
-            }
-        }
-        stage('verify'){
-            steps{
-                withKubeConfig(caCertificate: '', clusterName: 'itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'itkannadigaru', restrictKubeConfigAccess: false, serverUrl: 'https://688F197BF70A6790C077E2E1C239DD27.gr7.us-west-2.eks.amazonaws.com'){
-                    sh " kubectl get pods -n ${NAMESPACE}"
-                    sh " kubectl get svc -n ${NAMESPACE}"
-                }
-            }
-        }
+        // stage('Deploy to EKS cluster'){
+        //     steps{
+        //         withKubeConfig(caCertificate: '', clusterName: 'itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'itkannadigaru', restrictKubeConfigAccess: false, serverUrl: 'https://688F197BF70A6790C077E2E1C239DD27.gr7.us-west-2.eks.amazonaws.com'){
+        //             sh " sed -i 's|replace|${IMAGE_NAME}|g' deployment.yml "
+        //             sh " kubectl apply -f deployment.yml -n ${NAMESPACE}"
+        //         }
+        //     }
+        // }
+        // stage('verify'){
+        //     steps{
+        //         withKubeConfig(caCertificate: '', clusterName: 'itkannadigaru-cluster', contextName: '', credentialsId: 'kube', namespace: 'itkannadigaru', restrictKubeConfigAccess: false, serverUrl: 'https://688F197BF70A6790C077E2E1C239DD27.gr7.us-west-2.eks.amazonaws.com'){
+        //             sh " kubectl get pods -n ${NAMESPACE}"
+        //             sh " kubectl get svc -n ${NAMESPACE}"
+        //         }
+        //     }
+        // }
     }
 }
 
